@@ -74,7 +74,8 @@ public class Contato implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifpb.dac.atividade.jsf.Contato[ id=" + id + " ]";
+        return "Contato{" + "id=" + id + ", nome=" + nome + ", numero=" + numero + '}';
     }
+
     
 }

@@ -32,8 +32,9 @@ public class Repositorio {
         em.merge(contato);
     }
 
-    public void remover(long id) {
-        em.remove(id);
+    public void remover(Contato contato) {
+        System.err.println("remove "+contato);
+        em.remove(contato);
     }
 
     public Contato buscar(long id) {

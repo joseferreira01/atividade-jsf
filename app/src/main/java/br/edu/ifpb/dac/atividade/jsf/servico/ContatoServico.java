@@ -25,15 +25,18 @@ public class ContatoServico {
     private Repositorio repositorio;
 
     public void salvar(Contato contato) {
+        System.err.println("sando "+contato);
         repositorio.salvar(contato);
+        
     }
 
     public void atualizar(Contato contato) {
+        System.err.println("atu" +contato);
         repositorio.atualizar(contato);
     }
 
-    public void remover(long id) {
-
+    public void remover(Contato contato) {
+        this.repositorio.remover(contato);
     }
 
     public Contato buscar(long id) {

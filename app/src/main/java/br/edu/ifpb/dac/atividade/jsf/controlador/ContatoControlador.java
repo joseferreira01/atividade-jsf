@@ -24,16 +24,45 @@ public class ContatoControlador {
     @Inject
     private ContatoServico cs;
     private Contato contato;
+    private boolean editando = false;
+    private boolean notEditando = true;
     @PostConstruct
     public void init(){
         this.contato = new Contato();
     }
+    
     public String salvar(){
-        System.err.println("antes "+getLista());
+        System.err.println("savando cot "+this.contato);
         cs.salvar(contato);
-         System.err.println("depois "+getLista());
+        
+        limparContato();
         return null;
     }
+    public void editar(Contato contato){
+        this.contato = contato;
+        this.editando = true;
+        this.notEditando =false;
+    }
+    public String cancelar(){
+        this.editando = false;
+        this.notEditando = true;
+        limparContato();
+        return null;
+    }
+    public void atualizar(){
+        cs.atualizar(contato);
+        limparContato();
+    }
+    public void remover(Contato contato){
+        this.cs.remover(contato);
+    }
+
+    public boolean isEditando() {
+        return editando;
+    }
+
+   
+    
 
     public Contato getContato() {
         return contato;
@@ -43,13 +72,18 @@ public class ContatoControlador {
         this.contato = contato;
     }
  
-    public List<Contato> getLista(){
-        int l1,l2,l3;
-        List<Contato> buscarTodos = cs.buscarTodos();
-        List<Contato> allFirstLettersAsc = cs.getAllFirstLettersAsc();
-        List<Contato> contatoPorNome = cs.getContatoPorNome("j");
+    public List<Contato> getAllFirstLettersAsc(){
+                List<Contato> allFirstLettersAsc = cs.getAllFirstLettersAsc();
         return allFirstLettersAsc;
         
         
     }
+
+    public boolean isNotEditando() {
+        return notEditando;
+    }
+    private void limparContato(){
+        this.contato = new Contato();
+    }
+    
 }
