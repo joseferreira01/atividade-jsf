@@ -51,8 +51,10 @@ public class Repositorio {
     }
 
     public List<Contato> getContatoPorNome(String nome) {
-        TypedQuery<Contato> query = em.createQuery("select c from Contato c where c.nome=:nome ", Contato.class);
-        return query.setParameter("nome", nome).getResultList();
+         StringBuffer  sql =new StringBuffer("SELECT c FROM Contato c "
+         );  sql.append( " WHERE UPPER(c.nome) LIKE" ); sql.append(nome);sql.append("'%'");
+        TypedQuery<Contato> query = em.createQuery(sql.toString(), Contato.class);
+        return query.getResultList();
     }
 
 }

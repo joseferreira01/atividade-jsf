@@ -4,9 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="template/default_layout.xhtml">
         <ui:define name="content">
+            
+         <p:messages showDetail="true" showIcon="false" closable="true" showSummary="false" autoUpdate="false"/>
             <h:form>
                 <fieldset>
 
@@ -49,7 +52,7 @@
                     </f:facet>
                     <h:form>
 
-                        <h:commandButton action="#{contatoControlador.editar(contato)}" styleClass="btn btn-warning btn-xs" value="Editar"/>
+                        <h:commandButton action="#{contatoControlador.editar(contato)}" styleClass="btn-xs btn-warning btn-lg" value="Editar"/>
                     </h:form>
                 </h:column>
                  <h:column>

@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -21,48 +20,70 @@ import javax.persistence.TypedQuery;
 @Named
 @RequestScoped
 public class ContatoControlador {
+
     @Inject
     private ContatoServico cs;
     private Contato contato;
     private boolean editando = false;
     private boolean notEditando = true;
+    @Inject
+    private Mensagem mensagem;
+
     @PostConstruct
-    public void init(){
+    public void init() {
         this.contato = new Contato();
     }
-    
-    public String salvar(){
-        System.err.println("savando cot "+this.contato);
-        cs.salvar(contato);
-        
-        limparContato();
+
+    public String salvar() {
+
+        try {
+            cs.salvar(contato);
+            mensagem.addMessage("Contato salvo com sucesso");
+            limparContato();
+        } catch (Exception e) {
+              mensagem.addMessage("Erro ao salvar verifique os dados e tente novamente");
+        }
         return null;
     }
-    public void editar(Contato contato){
+
+    public void editar(Contato contato) {
         this.contato = contato;
         this.editando = true;
-        this.notEditando =false;
+        this.notEditando = false;
     }
-    public String cancelar(){
+
+    public String cancelar() {
         this.editando = false;
         this.notEditando = true;
         limparContato();
         return null;
     }
-    public void atualizar(){
-        cs.atualizar(contato);
+
+    public void atualizar() {
+        try {
+             cs.atualizar(contato);
         limparContato();
+              mensagem.addMessage("Contato atualizado");
+        } catch (Exception e) {
+              mensagem.addMessage("Erro ao atualizar tente novamente");
+        }
+       
     }
-    public void remover(Contato contato){
-        this.cs.remover(contato);
+
+    public void remover(Contato contato) {
+        try {
+            
+             this.cs.remover(contato);
+               mensagem.addMessage("contato removido");
+        } catch (Exception e) {
+              mensagem.addMessage("Erro ao remover contato");
+        }
+       
     }
 
     public boolean isEditando() {
         return editando;
     }
-
-   
-    
 
     public Contato getContato() {
         return contato;
@@ -71,19 +92,19 @@ public class ContatoControlador {
     public void setContato(Contato contato) {
         this.contato = contato;
     }
- 
-    public List<Contato> getAllFirstLettersAsc(){
-                List<Contato> allFirstLettersAsc = cs.getAllFirstLettersAsc();
+
+    public List<Contato> getAllFirstLettersAsc() {
+        List<Contato> allFirstLettersAsc = cs.getAllFirstLettersAsc();
         return allFirstLettersAsc;
-        
-        
+
     }
 
     public boolean isNotEditando() {
         return notEditando;
     }
-    private void limparContato(){
+
+    private void limparContato() {
         this.contato = new Contato();
     }
-    
+
 }
