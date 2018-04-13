@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <h:commandButton action="#{contatoControlador.salvar()}" value="Salvar" rendered="#{contatoControlador.notEditando}"/>
                         <h:commandButton action="#{contatoControlador.atualizar()}" value="Atualizar" rendered="#{contatoControlador.editando}" />
-                        <h:commandButton action="#{contatoControlador.salvar()}" value="cancelar" rendered="#{contatoControlador.editando}"/>
+                        <h:commandButton action="#{contatoControlador.cancelar()}" value="cancelar" rendered="#{contatoControlador.editando}"/>
                     </div>
 
                 </fieldset>
