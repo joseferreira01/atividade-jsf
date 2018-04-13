@@ -7,9 +7,13 @@ package br.edu.ifpb.dac.atividade.jsf.controlador;
 
 import br.edu.ifpb.dac.atividade.jsf.entity.Contato;
 import br.edu.ifpb.dac.atividade.jsf.servico.ContatoServico;
+import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,18 +23,21 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class ContatoControlador {
+public class ContatoControlador implements Serializable{
 
     @Inject
     private ContatoServico cs;
     private Contato contato;
     private boolean editando = false;
     private boolean notEditando = true;
+    private String encontrecontato;
     @Inject
     private Mensagem mensagem;
+    private List<Contato> allFirstLettersAsc;
 
     @PostConstruct
-    public void init() {
+    public void init() { 
+        allFirstLettersAsc = cs.buscarTodos();
         this.contato = new Contato();
     }
 
@@ -57,6 +64,15 @@ public class ContatoControlador {
         this.notEditando = true;
         limparContato();
         return null;
+    }
+    
+    public void filtro(AjaxBehaviorEvent event){
+        this.allFirstLettersAsc = allFirstLettersAsc.stream()
+                .filter(c -> c.getNome()
+                .toLowerCase()
+                .startsWith(encontrecontato.toLowerCase()))
+                .collect(Collectors.toList());
+       
     }
 
     public void atualizar() {
@@ -94,9 +110,17 @@ public class ContatoControlador {
     }
 
     public List<Contato> getAllFirstLettersAsc() {
-        List<Contato> allFirstLettersAsc = cs.getAllFirstLettersAsc();
+        allFirstLettersAsc = cs.getAllFirstLettersAsc();
         return allFirstLettersAsc;
 
+    }
+
+    public String getEncontrecontato() {
+        return encontrecontato;
+    }
+
+    public void setEncontrecontato(String encontrecontato) {
+        this.encontrecontato = encontrecontato;
     }
 
     public boolean isNotEditando() {
